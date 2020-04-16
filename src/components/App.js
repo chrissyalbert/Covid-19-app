@@ -6,6 +6,7 @@ import { GetData } from '../Data/GetData';
 // eslint-disable-next-line
 import './App.css';
 import Dashboard from './Dashboard/Dashboard';
+import SearchByState from './../Data/SearchByState';
 
 
 class App extends React.Component {
@@ -31,8 +32,8 @@ componentDidMount() {
     return (
       <div className="App" id="csv-data">
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Search by State</a>
-          <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"/>
+          <p className="navbar-brand col-sm-3 col-md-2 mr-0">Covid-19</p>
+          <SearchByState className="form-control form-control-dark w-100" />
         </nav>
         <div className="container-fluid">
           <div className="row">
@@ -72,6 +73,9 @@ componentDidMount() {
 }
 export default App;
 /*
+
+<input className="form-control form-control-dark w-100" type="text" placeholder="Search by State" aria-label="Search"/>
+
 <!--
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 className="h2">Track Covid-19 Cases in Your State</h1>
