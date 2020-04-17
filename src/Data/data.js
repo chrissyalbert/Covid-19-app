@@ -1,3 +1,56 @@
+export const Covid = {
+  handleCSVResult(csvString) {
+    // Split csv to rows array
+    var rows = csvString.split('\n');
+    //console.log(rows);
+    let newRows = rows.map(element => element.split(","));
+    let dateArr = newRows.map(element => element[0]);
+    dateArr.shift();
+    let casesArr = newRows.map(element => element[1]);
+    casesArr.shift();
+    let deathsArr = newRows.map(element => element[2]);
+    deathsArr.shift();
+    newRows = [dateArr, casesArr, deathsArr];
+    console.log(`US cases: `, newRows);
+    return newRows;
+  },
+
+  handleStateCSVResult(csvString, fips) {
+    // Split csv to rows array
+    var rows = csvString.split('\n');
+    //console.log(rows);
+    let newRows = rows.map(element => element.split(","));
+    console.log(newRows);
+    console.log(fips);
+    let selectedState = [];
+    for (let i = 1; i < newRows.length; i++) {
+      //console.log(newRows[i][2])
+      if (newRows[i][2] == fips) {
+        selectedState.push(newRows[i]);
+      }
+    }
+    console.log(selectedState);
+    let dateArr = selectedState.map(element => element[0]);
+    //console.log(dateArr);
+    let casesArr = selectedState.map(element => element[3]);
+    
+    //create array of new cases found each day
+    let newCases = [];
+    for (let i = 1; i< casesArr.length; i++) {
+      let element;
+      element = casesArr[i] - casesArr[i-1];
+      newCases.push(element);
+    }
+    let deathsArr = selectedState.map(element => element[4]);
+    let stateName = selectedState[1][1];
+    console.log(stateName);
+    selectedState = [dateArr, casesArr, deathsArr, stateName];
+    return selectedState;
+  }
+}
+
+
+/*
 let Alabama=[];
 let Alaska=[];
 let Arizona=[];
@@ -53,63 +106,4 @@ let Mariana=[];
 let Palau=[];
 let PuertoRico=[];
 let VirginIslands=[];
-
-export const Covid = {
-  handleCSVResult(csvString) {
-    // Get the div element to append the data to
-    //var dataArea = document.getElementById('csv-data');
-    
-    // Split csv to rows array
-    var rows = csvString.split('\n');
-    //console.log(rows);
-    let newRows = rows.map(element => element.split(","));
-    console.log(newRows);
-    let washington = [];
-    for (let i = 1; i < newRows.length; i++) {
-      if (newRows[i][1] === "Washington") {
-        washington.push(newRows[i]);
-      }
-      
-    }
-    
-    console.log(washington);
-    let dateArr = washington.map(element => element[0]);
-    //console.log(dateArr);
-    let casesArr = washington.map(element => element[3]);
-    
-    //create array of new cases found each day
-    let newCases = [];
-    for (let i = 1; i< casesArr.length; i++) {
-      let element;
-      element = casesArr[i] - casesArr[i-1];
-      newCases.push(element);
-    }
-    let deathsArr = washington.map(element => element[4]);
-    washington = [dateArr, casesArr, deathsArr];
-    //console.log(washTotal);
-    return washington;
-    /*
-    var htmlStr = '';
-    // Iterate over each row
-    for (var i = 0; i < rows.length; i++) {
-      var row = rows[i];
-      //console.log(row);
-      // split row to cells
-      var cells = row.split(',');
-      // Extract data from cells of current row
-      var date = cells[0];
-      var state = cells[1];
-      // eslint-disable-next-line
-      var fips = cells[2];
-      var cases = cells[3];
-      var deaths = cells[4];
-      // Add extracted CSV data to string
-      //htmlStr += `<p>Date: ${date}, state: ${state}, cases: ${cases}, deaths: ${deaths}</p><br>`;
-    }
-    //console.log(htmlStr);
-    // Set the string generated from CSV as HTML of the dedicated div
-    //dataArea.innerHTML = htmlStr;
-    */
-  }
-}
-
+*/

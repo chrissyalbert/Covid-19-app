@@ -1,39 +1,61 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// eslint-disable-next-line
-import { Covid } from '../Data/data';
 import { GetData } from '../Data/GetData';
-// eslint-disable-next-line
 import './App.css';
 import Dashboard from './Dashboard/Dashboard';
 import SearchByState from './../Data/SearchByState';
 
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      washington: [] 
-    }
+  state = {
+    selected: null,
+    selectedState: []
+  }
+  
+  handleChange = selectedState => {
+    this.setState({ selected: selectedState.value },
+      () => console.log(`state.selected: `, this.state.selected));
   }
 
-componentDidMount() {
-  GetData.handleRequest().then(response => {
-    console.log(response);
-    this.setState({washington: response});
-    console.log(this.state.washington);
-  });
-}
+  
+  componentDidMount() {
+    GetData.handleRequest().then(response => {
+      console.log(response);
+      this.setState({selectedState: response}, () => console.log(this.state.selectedState));
+      
+    });
+  }
+  
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.selected !== prevState.selected) {
+      GetData.handleStateRequest(this.state.selected).then(response => {
+        console.log(response);
+        this.setState({selectedState: response}, 
+          () => console.log(this.state.selectedState));
+      })
+    }
+  }
   
   render() {
-    const dates = this.state.washington[0];
-    const cases = this.state.washington[1];
-    const deaths = this.state.washington[2];
+    console.log(this.state.selectedState);
+    const dates = this.state.selectedState[0];
+    const cases = this.state.selectedState[1];
+    const deaths = this.state.selectedState[2];
     return (
       <div className="App" id="csv-data">
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
           <p className="navbar-brand col-sm-3 col-md-2 mr-0">Covid-19</p>
-          <SearchByState className="form-control form-control-dark w-100" />
+          <p className="navbar-brand col-sm-3 col-md-2 mr-0">
+            {
+              this.state.selectedState[3] ? this.state.selectedState[3] : "United States"
+            }
+            </p>
+          <SearchByState 
+            className="form-control form-control-dark w-100" 
+            onChange={this.handleChange}
+            value={this.state.selectedState}
+            />
         </nav>
         <div className="container-fluid">
           <div className="row">
@@ -57,7 +79,7 @@ componentDidMount() {
             </nav>
 
             <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-              <Dashboard 
+            <Dashboard 
                 labels={dates}
                 cases={cases}
                 deaths={deaths}
@@ -73,6 +95,16 @@ componentDidMount() {
 }
 export default App;
 /*
+const dates = this.state.selectedState[0];
+    const cases = this.state.selectedState[1];
+    const deaths = this.state.selectedState[2];
+
+<Dashboard 
+                labels={dates}
+                cases={cases}
+                deaths={deaths}
+              />
+
 
 <input className="form-control form-control-dark w-100" type="text" placeholder="Search by State" aria-label="Search"/>
 
