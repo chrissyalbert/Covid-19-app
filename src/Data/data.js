@@ -25,6 +25,7 @@ export const Covid = {
     let selectedState = [];
     for (let i = 1; i < newRows.length; i++) {
       //console.log(newRows[i][2])
+      // eslint-disable-next-line
       if (newRows[i][2] == fips) {
         selectedState.push(newRows[i]);
       }
@@ -48,6 +49,7 @@ export const Covid = {
     return selectedState;
   }
 }
+
 
 
 /*

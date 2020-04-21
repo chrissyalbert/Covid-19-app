@@ -15,10 +15,8 @@ const SearchByState = props => (
     className="basic-single width"
     classNamePrefix="select"  
     onChange={props.onChange}   
-    
+    value=""
   />
 )
 
 export default SearchByState;
-
-//  value={props.value}

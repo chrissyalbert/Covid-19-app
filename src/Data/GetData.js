@@ -19,3 +19,4 @@ export const GetData = {
 		}).catch(error => console.error(error));
 	}
 }
+
