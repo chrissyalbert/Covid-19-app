@@ -12,7 +12,18 @@ export const NewCases = props => {
   );
 }
 
-export const TotalCases = props => {
+export const USTotalCases = props => {
+  return (
+    <Button 
+      variant="link"
+      onClick={props.handleClick}
+    >
+      Show New Cases/Deaths
+    </Button>
+  );
+}
+
+export const StateTotalCases = props => {
   return (
     <Button 
       variant="link"

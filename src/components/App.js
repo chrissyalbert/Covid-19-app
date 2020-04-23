@@ -5,7 +5,7 @@ import './App.css';
 import Dashboard from './Dashboard/Dashboard';
 import SearchByState from './../Data/SearchByState';
 import { UScases } from './Sidebar/UScases';
-import { NewCases, TotalCases } from './Sidebar/ToggleCases';
+import { NewCases, USTotalCases, StateTotalCases } from './Sidebar/ToggleCases';
 
 class App extends React.Component {
   state = {
@@ -15,80 +15,92 @@ class App extends React.Component {
     totalCases: true
   }
   
-  handleChange = selectedState => {
-    this.setState({ selected: selectedState.value },
+  handleChange = async (selected) => {
+    await this.setState({ selected: selected.value },
       () => console.log(`state.selected: `, this.state.selected));
+    GetData.handleStateRequest(this.state.selected).then(response => {
+        console.log(response);
+        this.setState({
+          selectedState: response,
+          totalCases: true
+        }, 
+          () => console.log(`this.state: `, this.state));
+      });
   }
 
-  handleUSRequest() {
-    GetData.handleRequest().then(response => {
-      this.setState({selectedState: response}, () => console.log(this.state.selectedState));
+  async handleUSRequest() {
+    await this.setState({selected: null});
+    console.log(`this.state: `,this.state);
+    await GetData.handleRequest().then(response => {
+      this.setState({
+        selectedState: response,
+        totalCases: true
+      }, () => console.log(`this.state: `,this.state));
     });
   }
 
-  newCases() {
-    if (this.state.selectedState) {
-      GetData.handleStateCasesToggle(this.state.selected).then(response => {
+  newStateCases() {
+    GetData.handleStateCasesToggle(this.state.selected).then(response => {
+      console.log(response);
+      this.setState({
+        selectedState: response,
+        totalCases: false
+      }, 
+        () => console.log(`this.state: `, this.state));
+    });
+  }
+
+  newUSCases() {
+      GetData.handleUSCasesToggle().then(response => {
         console.log(response);
         this.setState({
           selectedState: response,
           totalCases: false
         }, 
-          () => console.log(this.state.selectedState));
+          () => console.log(`this.state: `, this.state));
       })
-    } else {
-      GetData.handleUSCasesToggle().then(response => {
-        console.log(response);
-        this.setState({
-          US: response
-        }, 
-        () => console.log(this.state.US));
-      });
-    }
-
   }
 
   totalCases() {
-    GetData.handleStateRequest(this.state.selected).then(response => {
-      console.log(response);
-      this.setState({
-        selectedState: response,
-        totalCases: true
-      }, 
-        () => console.log(this.state.selectedState));
-    })
+    // causes error if you try to get total US cases after looking at state cases
+    if (this.state.selected) {
+      GetData.handleStateRequest(this.state.selected).then(response => {
+        console.log(response);
+        this.setState({
+          selectedState: response,
+          totalCases: true
+        }, 
+          () => console.log(`this.state: `, this.state));
+      });
+    } else {
+      this.handleUSRequest();
+
+    }
+    
 }
 
   componentDidMount() {
     this.handleUSRequest();
   }
   
-
+/*
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.selected !== prevState.selected) {
+    //causes bug 
+    if (this.state.selected !== prevState.selected && this.state.selectedState !== prevState) {
       GetData.handleStateRequest(this.state.selected).then(response => {
         this.setState({
           selectedState: response,
-          totalCases: true,
-          US: []
-        }, () => console.log(this.state));
+          totalCases: true
+        }, () => console.log(`this.state: `, this.state));
       })
     }
   }
-  
+  */
   render() {
-    if (this.state.selectedState) {
-      console.log(this.state.selectedState);
-      const dates = this.state.selectedState[0];
-      const cases = this.state.selectedState[1];
-      const deaths = this.state.selectedState[2];
-    } else {
-      console.log(this.state.US);
-      const dates = this.state.US[0];
-      const cases = this.state.US[1];
-      const deaths = this.state.US[2];
-    }
-    
+    console.log(`this.state: `, this.state);
+    const dates = this.state.selectedState[0];
+    const cases = this.state.selectedState[1];
+    const deaths = this.state.selectedState[2];
     return (
       <div className="App">
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -113,19 +125,29 @@ class App extends React.Component {
               <div className="sidebar-sticky">
                 <ul className="nav flex-column">
                   <li className="nav-item">
+                    {this.state.selectedState[3] && 
                     <UScases 
                       handleClick={() => this.handleUSRequest()}
                     />
+                    }
+                    
                   </li>
                   <li className="nav-item">
-                    {this.state.totalCases ? 
-                    <TotalCases 
-                      handleClick={() => this.newCases()}
-                    /> :
+                    {(this.state.totalCases && this.state.selectedState[3]) && 
+                    <StateTotalCases 
+                      handleClick={() => this.newStateCases()}
+                    /> }
+                    {(this.state.totalCases && !this.state.selectedState[3]) &&
+                    <USTotalCases
+                    handleClick={() => this.newUSCases()}
+                    /> }
+                    {!this.state.totalCases && 
                     <NewCases 
-                      handleClick={() => this.totalCases()}
+                    handleClick={() => this.totalCases()}
                     />
                     }
+                    
+                    
                     
                   </li>
                   
