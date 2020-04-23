@@ -8,7 +8,7 @@ export const UScases = props => {
       variant="link"
       onClick={props.handleClick}
     >
-      U.S. Cases
+      Show U.S. Cases
     </Button>
   );
 }

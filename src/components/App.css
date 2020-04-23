@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  display: flex;
 }
 
 .App-logo {
@@ -36,6 +37,15 @@
     transform: rotate(360deg);
   }
 }
+
+.databox {
+  padding-top: 4rem;
+}
+
+nav p {
+  margin: 0.5rem 0;
+}
+
 .sidebar {
   position: fixed;
   top: 0;

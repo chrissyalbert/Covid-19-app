@@ -2,7 +2,6 @@ export const Covid = {
   handleCSVResult(csvString) {
     // Split csv to rows array
     var rows = csvString.split('\n');
-    //console.log(rows);
     let newRows = rows.map(element => element.split(","));
     let dateArr = newRows.map(element => element[0]);
     dateArr.shift();
@@ -15,40 +14,69 @@ export const Covid = {
     return newRows;
   },
 
+  handleToggle(csvString) {
+    let results = this.handleCSVResult(csvString);
+    let newCases = [];
+    for (let i = 1; i < results[1].length; i++) {
+      let element;
+      element = results[1][i] - results[1][i-1];
+      newCases.push(element);
+    }
+    console.log(`new cases: `, newCases);
+    let newDeaths = [];
+    for (let i = 1; i < results[2].length; i++) {
+      let element;
+      element = results[2][i] - results[2][i-1];
+      newDeaths.push(element);
+    }
+    console.log(`new deaths: `, newDeaths);
+    let newResults = [results[0], newCases, newDeaths]
+    console.log(`newResults: `, newResults);
+    return newResults;
+  },
+
   handleStateCSVResult(csvString, fips) {
     // Split csv to rows array
     var rows = csvString.split('\n');
-    //console.log(rows);
     let newRows = rows.map(element => element.split(","));
-    console.log(newRows);
-    console.log(fips);
     let selectedState = [];
     for (let i = 1; i < newRows.length; i++) {
-      //console.log(newRows[i][2])
       // eslint-disable-next-line
       if (newRows[i][2] == fips) {
         selectedState.push(newRows[i]);
       }
     }
-    console.log(selectedState);
     let dateArr = selectedState.map(element => element[0]);
-    //console.log(dateArr);
     let casesArr = selectedState.map(element => element[3]);
-    
-    //create array of new cases found each day
-    let newCases = [];
-    for (let i = 1; i< casesArr.length; i++) {
-      let element;
-      element = casesArr[i] - casesArr[i-1];
-      newCases.push(element);
-    }
     let deathsArr = selectedState.map(element => element[4]);
     let stateName = selectedState[1][1];
-    console.log(stateName);
     selectedState = [dateArr, casesArr, deathsArr, stateName];
     return selectedState;
+  },
+
+  handleStatesToggle(csvString, fips) {
+    let selectedState = this.handleStateCSVResult(csvString, fips);
+    //create array of new cases found each day
+    let newCases = [];
+    for (let i = 1; i < selectedState[1].length; i++) {
+      let element;
+      element = selectedState[1][i] - selectedState[1][i-1];
+      newCases.push(element);
+    }
+    console.log(`new cases: `, newCases);
+    let newDeaths = [];
+    for (let i = 1; i < selectedState[2].length; i++) {
+      let element;
+      element = selectedState[2][i] - selectedState[2][i-1];
+      newDeaths.push(element);
+    }
+    console.log(`new deaths: `, newDeaths);
+    let newResults = [selectedState[0], newCases, newDeaths, selectedState[3]]
+    console.log(`newResults: `, newResults);
+    return newResults;
   }
 }
+
 
 
 

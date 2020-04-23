@@ -12,10 +12,23 @@ export const GetData = {
 
 	},
 
+	handleUSCasesToggle() {
+		return axios.get(csvUrl).then(data => {
+			return Covid.handleToggle(data.data);
+		}).catch(error => console.error(error));
+	},
+
 	handleStateRequest(fips) {
 		return axios.get(csvStatesUrl).then(data => {
 			//console.log(data);
 			 return Covid.handleStateCSVResult(data.data, fips);
+		}).catch(error => console.error(error));
+	},
+
+	handleStateCasesToggle(fips) {
+		return axios.get(csvStatesUrl).then(data => {
+			//console.log(data);
+			 return Covid.handleStatesToggle(data.data, fips);
 		}).catch(error => console.error(error));
 	}
 }
