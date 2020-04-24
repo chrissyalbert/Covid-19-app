@@ -1,4 +1,11 @@
 .width {
   width: 50%;
   margin: 0 auto;
+  color: #6610f2;
+}
+
+@media only screen and (max-width: 575.98px) {
+  .width {
+    width: 100%;
+  }
 }

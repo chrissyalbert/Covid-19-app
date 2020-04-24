@@ -26,7 +26,6 @@ export default class LineGraph extends React.PureComponent {
         myLineChart = new Chart(myChartRef, {
             type: "line",
             data: {
-                //Bring in data
                 labels: labels,
                 datasets: [
                     {

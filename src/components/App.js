@@ -11,7 +11,6 @@ class App extends React.Component {
   state = {
     selected: null,
     selectedState: [],
-    US: [],
     totalCases: true
   }
   
@@ -74,28 +73,13 @@ class App extends React.Component {
       });
     } else {
       this.handleUSRequest();
-
     }
-    
 }
 
   componentDidMount() {
     this.handleUSRequest();
   }
-  
-/*
-  componentDidUpdate(prevProps, prevState) {
-    //causes bug 
-    if (this.state.selected !== prevState.selected && this.state.selectedState !== prevState) {
-      GetData.handleStateRequest(this.state.selected).then(response => {
-        this.setState({
-          selectedState: response,
-          totalCases: true
-        }, () => console.log(`this.state: `, this.state));
-      })
-    }
-  }
-  */
+
   render() {
     console.log(`this.state: `, this.state);
     const dates = this.state.selectedState[0];
@@ -103,14 +87,11 @@ class App extends React.Component {
     const deaths = this.state.selectedState[2];
     return (
       <div className="App">
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <p className="navbar-brand col-sm-3 col-md-2 mr-0">Covid-19</p>
-          <p className="navbar-brand">
-            {
-              this.state.selectedState[3] ? this.state.selectedState[3] : "United States"
-            }
-          </p>
-          <p className="navbar-brand">
+        <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
+          <p className="navbar-dark mr-0">Covid-19</p>
+          <p className="navbar-dark">
+            {this.state.selectedState[3] ? this.state.selectedState[3] : "United States"}
+            &nbsp;
             {this.state.totalCases ? "Total Cases/Deaths" : "New Cases/Deaths"}
           </p>
           <SearchByState 
@@ -121,7 +102,7 @@ class App extends React.Component {
         </nav>
         <div className="container-fluid databox">
           <div className="row">
-            <nav className="col-md-2 d-none d-md-block sidebar">
+            <nav className="col-md-2 d-block sidebar">
               <div className="sidebar-sticky">
                 <ul className="nav flex-column">
                   <li className="nav-item">
@@ -130,7 +111,6 @@ class App extends React.Component {
                       handleClick={() => this.handleUSRequest()}
                     />
                     }
-                    
                   </li>
                   <li className="nav-item">
                     {(this.state.totalCases && this.state.selectedState[3]) && 
@@ -146,22 +126,17 @@ class App extends React.Component {
                     handleClick={() => this.totalCases()}
                     />
                     }
-                    
-                    
-                    
                   </li>
-                  
-                  
-                  
                 </ul>
               </div>
             </nav>
-
-            <main role="main" className="col-md-10 ml-sm-auto col-lg-10 px-4">
+            <main role="main" className="col-md-10 ml-sm-auto">
             <Dashboard 
                 labels={dates}
                 cases={cases}
                 deaths={deaths}
+                state={this.state.selectedState[3] ? this.state.selectedState[3] : "United States"}
+                total={this.state.totalCases ? "Total" : "New"}
               />
             </main>
           </div>
@@ -173,19 +148,3 @@ class App extends React.Component {
 
 }
 export default App;
-/*
-
-
-    GetData.handleStateRequest(this.state.selected).then(response => {
-      console.log(response);
-      this.setState({
-        selectedState: response,
-        totalCases: true
-      }, 
-        () => console.log(this.state.selectedState));
-    });
-
-<li className="nav-item">
-              New Cases and Deaths per Day
-                  </li>
-                  */

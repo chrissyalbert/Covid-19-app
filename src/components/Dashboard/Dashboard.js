@@ -1,22 +1,14 @@
 import React from 'react';
-//import classes from "./Dashboard.module.css";
+import classes from "./Dashboard.module.css";
 import LineGraph from "./LineGraph";
 
-// add dynamic data
-
-
 export default class Dashboard extends React.PureComponent {
-  //add dynamic data
-
     render() {
-        const {labels, cases, deaths } = this.props;
-        
-        
-        
+        const {labels, cases, deaths, state, total } = this.props;
         return (
             <div>
             <header>
-                <h1>Confirmed Covid-19 Cases</h1>
+                <h1 className={classes.mobile}>Confirmed {state} {total} Covid-19 Cases</h1>
             </header>
                 <LineGraph
                     cases={cases}
