@@ -139,6 +139,8 @@ class App extends React.Component {
                 total={this.state.totalCases ? "Total" : "New"}
               />
             </main>
+            <div><p>Data is from the <a href="https://github.com/nytimes/covid-19-data" target="_blank">New York Times</a></p>
+              <p>Icons made by <a href="https://www.flaticon.com/authors/srip" title="srip">srip</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p></div>
           </div>
         </div>
       </div>
