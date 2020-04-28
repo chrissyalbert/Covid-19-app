@@ -4,11 +4,11 @@ import LineGraph from "./LineGraph";
 
 export default class Dashboard extends React.PureComponent {
     render() {
-        const {labels, cases, deaths, state, total } = this.props;
+        const {labels, cases, deaths, state, total, perCapita } = this.props;
         return (
             <div>
             <header>
-                <h1 className={classes.mobile}>{state}<br />Confirmed {total} Covid-19 Cases</h1>
+        <h1 className={classes.mobile}>{state}<br />Confirmed {total} Covid-19 Cases<br />{perCapita}</h1>
             </header>
                 <LineGraph
                     cases={cases}

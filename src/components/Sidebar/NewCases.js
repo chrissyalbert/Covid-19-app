@@ -7,7 +7,7 @@ export const NewCases = props => {
       variant="link"
       onClick={props.handleClick}
     >
-      Show Total Cases/Deaths
+      Show Total Cases
     </Button>
   );
 }
@@ -18,7 +18,7 @@ export const USTotalCases = props => {
       variant="link"
       onClick={props.handleClick}
     >
-      Show New Cases/Deaths
+      Show New Cases
     </Button>
   );
 }
@@ -29,7 +29,7 @@ export const StateTotalCases = props => {
       variant="link"
       onClick={props.handleClick}
     >
-      Show New Cases/Deaths
+      Show New Cases
     </Button>
   );
 }

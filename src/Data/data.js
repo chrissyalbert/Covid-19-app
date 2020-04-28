@@ -15,7 +15,7 @@ export const Covid = {
   },
 
   handleUSTotalPerCapita(csvString) {
-    let results = this.handleCSVResult(csvString);
+    let results = this.handleUSCSVResult(csvString);
     let cases = [];
     for (let i = 1; i < results[1].length; i++) {
       let element;
@@ -33,6 +33,27 @@ export const Covid = {
     let perCapitaResults = [results[0], cases, deaths];
     console.log(`perCapitaResults: `, perCapitaResults);
     return perCapitaResults;
+  },
+
+  handleUSNewPerCapita(csvString) {
+    let results = this.handleUSTotalPerCapita(csvString);
+    let newCases = [];
+    for (let i = 1; i < results[1].length; i++) {
+      let element;
+      element = results[1][i] - results[1][i-1];
+      newCases.push(element);
+    }
+    console.log(`new cases per capita: `, newCases);
+    let newDeaths = [];
+    for (let i = 1; i < results[2].length; i++) {
+      let element;
+      element = results[2][i] - results[2][i-1];
+      newDeaths.push(element);
+    }
+    console.log(`new deaths per capita: `, newDeaths);
+    let newResults = [results[0], newCases, newDeaths]
+    console.log(`newResults per capita: `, newResults);
+    return newResults;
   },
 
   handleUSNewCases(csvString) {
@@ -76,7 +97,7 @@ export const Covid = {
   },
 
   handleStatesNewCases(csvString, fips) {
-    let selectedState = this.handleStateCSVResult(csvString, fips);
+    let selectedState = this.handleStatesCSVResult(csvString, fips);
     //create array of new cases found each day
     let newCases = [];
     for (let i = 1; i < selectedState[1].length; i++) {

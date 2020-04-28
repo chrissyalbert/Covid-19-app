@@ -7,7 +7,7 @@ export const USTotalPerCapita = props => {
       variant="link"
       onClick={props.handleClick}
     >
-      Show New Cases per 100,000 people
+      Show Cases per 100,000 people
     </Button>
   );
 }
@@ -18,7 +18,7 @@ export const USNewPerCapita = props => {
       variant="link"
       onClick={props.handleClick}
     >
-      Show Total Cases per 100,000 people
+      Show New Cases per 100,000 people
     </Button>
   );
 }

@@ -5,8 +5,8 @@ import './App.css';
 import Dashboard from './Dashboard/Dashboard';
 import SearchByState from './../Data/SearchByState';
 import { UScases } from './Sidebar/UScases';
-import { NewCases, USTotalCases, StateTotalCases } from './Sidebar/ToggleCases';
-import { USTotalPerCapita } from "./Sidebar/PerCapita";
+import { NewCases, USTotalCases, StateTotalCases } from './Sidebar/NewCases';
+import { USTotalPerCapita, USNewPerCapita } from "./Sidebar/PerCapita";
 
 class App extends React.Component {
   state = {
@@ -22,7 +22,9 @@ class App extends React.Component {
     GetData.handleStatesRequest(this.state.selected).then(response => {
         console.log(response);
         this.setState({
-          selectedState: response
+          selectedState: response,
+          totalCases: true,
+          perCapita: false
         }, 
           () => console.log(`this.state: `, this.state));
       });
@@ -34,41 +36,44 @@ class App extends React.Component {
     await GetData.handleUSRequest().then(response => {
       this.setState({
         selectedState: response,
-        totalCases: true
+        totalCases: true,
+        perCapita: false
       }, () => console.log(`this.state: `,this.state));
     });
   }
 
-  handleTotalUSPerCapitaCases() {
+  handleUSTotalPerCapitaCases() {
     GetData.handleUSTotalPerCapita().then(response => {
       console.log(response);
       this.setState({
         selectedState: response,
+        totalCases: true,
         perCapita: true
       },
       () => console.log(`this.state: `, this.state));
     });
   }
 
-  /*
-  newUSPerCapitaCases() {
-    .then(response => {
+  handleUSNewPerCapitaCases() {
+    GetData.handleUSNewPerCapita().then(response => {
       console.log(response);
       this.setState({
         selectedState: response,
+        totalCases: false,
         perCapita: true
       },
       () => console.log(`this.state: `, this.state));
     });
   }
-  */
+  
 
   handleNewStatesCases() {
     GetData.handleStatesNewCases(this.state.selected).then(response => {
       console.log(response);
       this.setState({
         selectedState: response,
-        totalCases: false
+        totalCases: false,
+        perCapita: false
       }, 
         () => console.log(`this.state: `, this.state));
     });
@@ -79,7 +84,8 @@ class App extends React.Component {
         console.log(response);
         this.setState({
           selectedState: response,
-          totalCases: false
+          totalCases: false,
+          perCapita: false
         }, 
           () => console.log(`this.state: `, this.state));
       })
@@ -91,7 +97,8 @@ class App extends React.Component {
         console.log(response);
         this.setState({
           selectedState: response,
-          totalCases: true
+          totalCases: true,
+          perCapita: false
         }, 
           () => console.log(`this.state: `, this.state));
       });
@@ -116,7 +123,9 @@ class App extends React.Component {
           <p className="navbar-dark">
             {this.state.selectedState[3] ? this.state.selectedState[3] : "United States"}
             &nbsp;
-            {this.state.totalCases ? "Total Cases/Deaths" : "New Cases/Deaths"}
+            {this.state.totalCases ? "Total Cases" : "New Cases"}
+            &nbsp;
+            {this.state.perCapita ? "per 100,000" : ""}
           </p>
           <SearchByState 
             className="form-control form-control-dark w-100" 
@@ -151,6 +160,20 @@ class App extends React.Component {
                     />
                     }
                   </li>
+                  <li className="nav-item">
+                    {(!this.state.selectedState[3] && !this.state.perCapita) &&
+                    <>
+                    <USTotalPerCapita 
+                      handleClick={() => this.handleUSTotalPerCapitaCases()}
+                    />
+                    <br />
+                    <br />
+                    <USNewPerCapita 
+                      handleClick={() => this.handleUSNewPerCapitaCases()}
+                    />
+                    </>
+                    }
+                  </li>
                 </ul>
               </div>
             </nav>
@@ -161,6 +184,7 @@ class App extends React.Component {
                 deaths={deaths}
                 state={this.state.selectedState[3] ? this.state.selectedState[3] : "United States"}
                 total={this.state.totalCases ? "Total" : "New"}
+                perCapita={this.state.perCapita ? "per 100,000 people" : ""}
               />
             </main>
             <div><p>Data is from the <a href="https://github.com/nytimes/covid-19-data" target="_blank" rel="noopener noreferrer">New York Times</a></p>
