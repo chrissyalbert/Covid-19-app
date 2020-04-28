@@ -14,7 +14,7 @@ export const Covid = {
     return newRows;
   },
 
-  handleToggle(csvString) {
+  handleUSNewCases(csvString) {
     let results = this.handleCSVResult(csvString);
     let newCases = [];
     for (let i = 1; i < results[1].length; i++) {
@@ -54,7 +54,7 @@ export const Covid = {
     return selectedState;
   },
 
-  handleStatesToggle(csvString, fips) {
+  handleStatesNewCases(csvString, fips) {
     let selectedState = this.handleStateCSVResult(csvString, fips);
     //create array of new cases found each day
     let newCases = [];

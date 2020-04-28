@@ -12,9 +12,9 @@ export const GetData = {
 
 	},
 
-	handleUSCasesToggle() {
+	handleUSCasesNewCases() {
 		return axios.get(csvUrl).then(data => {
-			return Covid.handleToggle(data.data);
+			return Covid.handleUSNewCases(data.data);
 		}).catch(error => console.error(error));
 	},
 
@@ -25,10 +25,10 @@ export const GetData = {
 		}).catch(error => console.error(error));
 	},
 
-	handleStateCasesToggle(fips) {
+	handleStatesNewCases(fips) {
 		return axios.get(csvStatesUrl).then(data => {
 			//console.log(data);
-			 return Covid.handleStatesToggle(data.data, fips);
+			 return Covid.handleStatesNewCases(data.data, fips);
 		}).catch(error => console.error(error));
 	}
 }

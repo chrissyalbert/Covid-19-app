@@ -38,8 +38,8 @@ class App extends React.Component {
     });
   }
 
-  newStateCases() {
-    GetData.handleStateCasesToggle(this.state.selected).then(response => {
+  handleNewStateCases() {
+    GetData.handleStatesNewCases(this.state.selected).then(response => {
       console.log(response);
       this.setState({
         selectedState: response,
@@ -49,8 +49,8 @@ class App extends React.Component {
     });
   }
 
-  newUSCases() {
-      GetData.handleUSCasesToggle().then(response => {
+  handleNewUSCases() {
+      GetData.handleUSCasesNewCases().then(response => {
         console.log(response);
         this.setState({
           selectedState: response,
@@ -60,8 +60,7 @@ class App extends React.Component {
       })
   }
 
-  totalCases() {
-    // causes error if you try to get total US cases after looking at state cases
+  handleTotalCases() {
     if (this.state.selected) {
       GetData.handleStateRequest(this.state.selected).then(response => {
         console.log(response);
@@ -115,15 +114,15 @@ class App extends React.Component {
                   <li className="nav-item">
                     {(this.state.totalCases && this.state.selectedState[3]) && 
                     <StateTotalCases 
-                      handleClick={() => this.newStateCases()}
+                      handleClick={() => this.handleNewStateCases()}
                     /> }
                     {(this.state.totalCases && !this.state.selectedState[3]) &&
                     <USTotalCases
-                    handleClick={() => this.newUSCases()}
+                    handleClick={() => this.handleNewUSCases()}
                     /> }
                     {!this.state.totalCases && 
                     <NewCases 
-                    handleClick={() => this.totalCases()}
+                    handleClick={() => this.handleTotalCases()}
                     />
                     }
                   </li>
@@ -139,7 +138,7 @@ class App extends React.Component {
                 total={this.state.totalCases ? "Total" : "New"}
               />
             </main>
-            <div><p>Data is from the <a href="https://github.com/nytimes/covid-19-data" target="_blank">New York Times</a></p>
+            <div><p>Data is from the <a href="https://github.com/nytimes/covid-19-data" target="_blank" rel="noopener noreferrer">New York Times</a></p>
               <p>Icons made by <a href="https://www.flaticon.com/authors/srip" title="srip">srip</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p></div>
           </div>
         </div>
