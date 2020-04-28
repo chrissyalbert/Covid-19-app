@@ -11,7 +11,7 @@ export const GetData = {
 		}).catch(error => console.error(error));
 	},
 
-	handleTotalPerCapita() {
+	handleUSTotalPerCapita() {
 		return axios.get(csvUrl).then(data => {
 			return Covid.handleUSTotalPerCapita(data.data);
 		}).catch(error => console.error(error));

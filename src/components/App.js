@@ -12,7 +12,8 @@ class App extends React.Component {
   state = {
     selected: null,
     selectedState: [],
-    totalCases: true
+    totalCases: true,
+    perCapita: false
   }
   
   handleChange = async (selected) => {
@@ -21,8 +22,7 @@ class App extends React.Component {
     GetData.handleStatesRequest(this.state.selected).then(response => {
         console.log(response);
         this.setState({
-          selectedState: response,
-          totalCases: true
+          selectedState: response
         }, 
           () => console.log(`this.state: `, this.state));
       });
@@ -38,6 +38,30 @@ class App extends React.Component {
       }, () => console.log(`this.state: `,this.state));
     });
   }
+
+  handleTotalUSPerCapitaCases() {
+    GetData.handleUSTotalPerCapita().then(response => {
+      console.log(response);
+      this.setState({
+        selectedState: response,
+        perCapita: true
+      },
+      () => console.log(`this.state: `, this.state));
+    });
+  }
+
+  /*
+  newUSPerCapitaCases() {
+    .then(response => {
+      console.log(response);
+      this.setState({
+        selectedState: response,
+        perCapita: true
+      },
+      () => console.log(`this.state: `, this.state));
+    });
+  }
+  */
 
   handleNewStatesCases() {
     GetData.handleStatesNewCases(this.state.selected).then(response => {
