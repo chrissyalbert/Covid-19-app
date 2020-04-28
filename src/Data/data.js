@@ -1,5 +1,5 @@
 export const Covid = {
-  handleCSVResult(csvString) {
+  handleUSCSVResult(csvString) {
     // Split csv to rows array
     var rows = csvString.split('\n');
     let newRows = rows.map(element => element.split(","));
@@ -14,8 +14,29 @@ export const Covid = {
     return newRows;
   },
 
-  handleUSNewCases(csvString) {
+  handleUSTotalPerCapita(csvString) {
     let results = this.handleCSVResult(csvString);
+    let cases = [];
+    for (let i = 1; i < results[1].length; i++) {
+      let element;
+      element = Math.ceil((100000 * results[1][i])/328239523);
+      cases.push(element);
+    }
+    console.log(`cases per 100,000 people: `, cases);
+    let deaths = [];
+    for (let i = 1; i < results[2].length; i++) {
+      let element;
+      element = Math.ceil((1000 * results[1][i])/328239523);
+      deaths.push(element);
+    }
+    console.log(`deaths per 100,000 people: `, deaths);
+    let perCapitaResults = [results[0], cases, deaths];
+    console.log(`perCapitaResults: `, perCapitaResults);
+    return perCapitaResults;
+  },
+
+  handleUSNewCases(csvString) {
+    let results = this.handleUSCSVResult(csvString);
     let newCases = [];
     for (let i = 1; i < results[1].length; i++) {
       let element;
@@ -35,7 +56,7 @@ export const Covid = {
     return newResults;
   },
 
-  handleStateCSVResult(csvString, fips) {
+  handleStatesCSVResult(csvString, fips) {
     // Split csv to rows array
     var rows = csvString.split('\n');
     let newRows = rows.map(element => element.split(","));

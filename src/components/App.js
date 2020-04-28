@@ -6,6 +6,7 @@ import Dashboard from './Dashboard/Dashboard';
 import SearchByState from './../Data/SearchByState';
 import { UScases } from './Sidebar/UScases';
 import { NewCases, USTotalCases, StateTotalCases } from './Sidebar/ToggleCases';
+import { USTotalPerCapita } from "./Sidebar/PerCapita";
 
 class App extends React.Component {
   state = {
@@ -17,7 +18,7 @@ class App extends React.Component {
   handleChange = async (selected) => {
     await this.setState({ selected: selected.value },
       () => console.log(`state.selected: `, this.state.selected));
-    GetData.handleStateRequest(this.state.selected).then(response => {
+    GetData.handleStatesRequest(this.state.selected).then(response => {
         console.log(response);
         this.setState({
           selectedState: response,
@@ -30,7 +31,7 @@ class App extends React.Component {
   async handleUSRequest() {
     await this.setState({selected: null});
     console.log(`this.state: `,this.state);
-    await GetData.handleRequest().then(response => {
+    await GetData.handleUSRequest().then(response => {
       this.setState({
         selectedState: response,
         totalCases: true
@@ -38,7 +39,7 @@ class App extends React.Component {
     });
   }
 
-  handleNewStateCases() {
+  handleNewStatesCases() {
     GetData.handleStatesNewCases(this.state.selected).then(response => {
       console.log(response);
       this.setState({
@@ -62,7 +63,7 @@ class App extends React.Component {
 
   handleTotalCases() {
     if (this.state.selected) {
-      GetData.handleStateRequest(this.state.selected).then(response => {
+      GetData.handleStatesRequest(this.state.selected).then(response => {
         console.log(response);
         this.setState({
           selectedState: response,
@@ -114,7 +115,7 @@ class App extends React.Component {
                   <li className="nav-item">
                     {(this.state.totalCases && this.state.selectedState[3]) && 
                     <StateTotalCases 
-                      handleClick={() => this.handleNewStateCases()}
+                      handleClick={() => this.handleNewStatesCases()}
                     /> }
                     {(this.state.totalCases && !this.state.selectedState[3]) &&
                     <USTotalCases

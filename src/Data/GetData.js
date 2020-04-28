@@ -5,11 +5,16 @@ const csvStatesUrl = process.env.REACT_APP_CSV;
 
 const csvUrl = process.env.REACT_APP_USCSV;
 export const GetData = {
-	handleRequest() {
+	handleUSRequest() {
 		return axios.get(csvUrl).then(data => {
-			return Covid.handleCSVResult(data.data);
+			return Covid.handleUSCSVResult(data.data);
 		}).catch(error => console.error(error));
+	},
 
+	handleTotalPerCapita() {
+		return axios.get(csvUrl).then(data => {
+			return Covid.handleUSTotalPerCapita(data.data);
+		}).catch(error => console.error(error));
 	},
 
 	handleUSCasesNewCases() {
@@ -18,10 +23,10 @@ export const GetData = {
 		}).catch(error => console.error(error));
 	},
 
-	handleStateRequest(fips) {
+	handleStatesRequest(fips) {
 		return axios.get(csvStatesUrl).then(data => {
 			//console.log(data);
-			 return Covid.handleStateCSVResult(data.data, fips);
+			 return Covid.handleStatesCSVResult(data.data, fips);
 		}).catch(error => console.error(error));
 	},
 
