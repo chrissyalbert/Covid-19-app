@@ -4,10 +4,11 @@ import Button from 'react-bootstrap/Button';
 export const USTotalPerCapita = props => {
   const { handleClick, totalCases, perCapita } = props;
   return (
-    (totalCases || (!totalCases && !perCapita)) ? null :
     <Button 
       variant="link"
       onClick={handleClick}
+      totalCases={totalCases}
+      perCapita={perCapita}
     >
       Show Cases per 100,000 people
     </Button>
