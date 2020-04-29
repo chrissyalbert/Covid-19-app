@@ -116,16 +116,18 @@ class App extends React.Component {
     const dates = this.state.selectedState[0];
     const cases = this.state.selectedState[1];
     const deaths = this.state.selectedState[2];
+    let states = this.state.selectedState[3] ? this.state.selectedState[3] : "";
+    const { totalCases, perCapita } = this.state;
     return (
       <div className="App">
         <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
           <p className="navbar-dark mr-0">Covid-19</p>
           <p className="navbar-dark">
-            {this.state.selectedState[3] ? this.state.selectedState[3] : "United States"}
+            {states ? states : "United States"}
             &nbsp;
-            {this.state.totalCases ? "Total Cases" : "New Cases"}
+            {totalCases ? "Total Cases" : "New Cases"}
             &nbsp;
-            {this.state.perCapita ? "per 100,000" : ""}
+            {perCapita ? "per 100,000" : ""}
           </p>
           <SearchByState 
             className="form-control form-control-dark w-100" 
@@ -139,40 +141,46 @@ class App extends React.Component {
               <div className="sidebar-sticky">
                 <ul className="nav flex-column">
                   <li className="nav-item">
-                    {this.state.selectedState[3] && 
+                    {states && 
                     <UScases 
                       handleClick={() => this.handleUSRequest()}
                     />
                     }
                   </li>
                   <li className="nav-item">
-                    {(this.state.totalCases && this.state.selectedState[3]) && 
+                    {states && 
                     <StateTotalCases 
                       handleClick={() => this.handleNewStatesCases()}
+                      totalCases={totalCases}
+                      perCapita={perCapita}
                     /> }
-                    {(this.state.totalCases && !this.state.selectedState[3]) &&
+                    {!states &&
                     <USTotalCases
-                    handleClick={() => this.handleNewUSCases()}
+                      handleClick={() => this.handleNewUSCases()}
+                      totalCases={totalCases}
+                      perCapita={perCapita}
                     /> }
-                    {!this.state.totalCases && 
-                    <NewCases 
-                    handleClick={() => this.handleTotalCases()}
-                    />
-                    }
                   </li>
                   <li className="nav-item">
-                    {(!this.state.selectedState[3] && !this.state.perCapita) &&
-                    <>
+                    <NewCases 
+                      handleClick={() => this.handleTotalCases()}
+                      totalCases={totalCases}
+                      perCapita={perCapita}
+                    />
+                  </li>
+                  <li className="nav-item">
                     <USTotalPerCapita 
                       handleClick={() => this.handleUSTotalPerCapitaCases()}
+                      totalCases={totalCases}
+                      perCapita={perCapita}
                     />
-                    <br />
-                    <br />
+                    </li>
+                  <li className="nav-item">
                     <USNewPerCapita 
                       handleClick={() => this.handleUSNewPerCapitaCases()}
+                      totalCases={totalCases}
+                      perCapita={perCapita}
                     />
-                    </>
-                    }
                   </li>
                 </ul>
               </div>
@@ -182,9 +190,9 @@ class App extends React.Component {
                 labels={dates}
                 cases={cases}
                 deaths={deaths}
-                state={this.state.selectedState[3] ? this.state.selectedState[3] : "United States"}
-                total={this.state.totalCases ? "Total" : "New"}
-                perCapita={this.state.perCapita ? "per 100,000 people" : ""}
+                state={states ? states : "United States"}
+                total={totalCases ? "Total" : "New"}
+                perCapita={perCapita ? "per 100,000 people" : ""}
               />
             </main>
             <div><p>Data is from the <a href="https://github.com/nytimes/covid-19-data" target="_blank" rel="noopener noreferrer">New York Times</a></p>

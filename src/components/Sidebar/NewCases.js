@@ -2,10 +2,13 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 
 export const NewCases = props => {
+  const { handleClick, totalCases, perCapita } = props;
+  
   return (
+    (totalCases || (!totalCases && !perCapita)) ? null :
     <Button 
       variant="link"
-      onClick={props.handleClick}
+      onClick={handleClick}
     >
       Show Total Cases
     </Button>
@@ -13,10 +16,12 @@ export const NewCases = props => {
 }
 
 export const USTotalCases = props => {
+  const { handleClick, totalCases, perCapita } = props;
   return (
+    (!totalCases || (totalCases && !perCapita)) ? null :
     <Button 
       variant="link"
-      onClick={props.handleClick}
+      onClick={handleClick}
     >
       Show New Cases
     </Button>
@@ -24,10 +29,13 @@ export const USTotalCases = props => {
 }
 
 export const StateTotalCases = props => {
+  const { handleClick, totalCases, perCapita } = props;
   return (
+    (!totalCases || (totalCases && !perCapita)) ? null :
     <Button 
       variant="link"
-      onClick={props.handleClick}
+      onClick={handleClick}
+
     >
       Show New Cases
     </Button>
