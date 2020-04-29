@@ -5,7 +5,7 @@ export const NewCases = props => {
   const { handleClick, totalCases, perCapita } = props;
   
   return (
-
+    (totalCases && !perCapita) ? null :
     <Button 
       variant="link"
       onClick={handleClick}
@@ -18,7 +18,7 @@ export const NewCases = props => {
 export const USTotalCases = props => {
   const { handleClick, totalCases, perCapita } = props;
   return (
- 
+    (!totalCases && !perCapita) ? null :
     <Button 
       variant="link"
       onClick={handleClick}
@@ -31,6 +31,7 @@ export const USTotalCases = props => {
 export const StateTotalCases = props => {
   const { handleClick, totalCases, perCapita } = props;
   return (
+    (!totalCases && !perCapita) ? null :
     <Button 
       variant="link"
       onClick={handleClick}

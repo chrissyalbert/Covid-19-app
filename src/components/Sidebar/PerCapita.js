@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 export const USTotalPerCapita = props => {
   const { handleClick, totalCases, perCapita } = props;
   return (
+    (totalCases && perCapita) ? null :
     <Button 
       variant="link"
       onClick={handleClick}
@@ -18,6 +19,7 @@ export const USTotalPerCapita = props => {
 export const USNewPerCapita = props => {
   const { handleClick, totalCases, perCapita } = props;
   return (
+    (!totalCases && perCapita) ? null :
     <Button 
       variant="link"
       onClick={handleClick}
