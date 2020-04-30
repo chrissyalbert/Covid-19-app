@@ -28,3 +28,18 @@ export const USNewPerCapita = props => {
     </Button>
   );
 }
+
+export const StatesTotalPerCapita = props => {
+  const { handleClick, totalCases, perCapita } = props;
+  return (
+    (totalCases && perCapita) ? null :
+    <Button 
+      variant="link"
+      onClick={handleClick}
+      totalCases={totalCases}
+      perCapita={perCapita}
+    >
+      Show Cases per 100,000 people
+    </Button>
+  );
+}

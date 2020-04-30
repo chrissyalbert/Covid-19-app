@@ -6,7 +6,7 @@ import Dashboard from './Dashboard/Dashboard';
 import SearchByState from './../Data/SearchByState';
 import { UScases } from './Sidebar/UScases';
 import { NewCases, USTotalCases, StateTotalCases } from './Sidebar/NewCases';
-import { USTotalPerCapita, USNewPerCapita } from "./Sidebar/PerCapita";
+import { USTotalPerCapita, USNewPerCapita, StatesTotalPerCapita } from "./Sidebar/PerCapita";
 
 class App extends React.Component {
   state = {
@@ -42,7 +42,7 @@ class App extends React.Component {
     });
   }
 
-  handleUSTotalPerCapitaCases() {
+  handleUSTotalPerCapita() {
     GetData.handleUSTotalPerCapita().then(response => {
       console.log(response);
       this.setState({
@@ -54,7 +54,7 @@ class App extends React.Component {
     });
   }
 
-  handleUSNewPerCapitaCases() {
+  handleUSNewPerCapita() {
     GetData.handleUSNewPerCapita().then(response => {
       console.log(response);
       this.setState({
@@ -66,6 +66,17 @@ class App extends React.Component {
     });
   }
   
+  handleStatesTotalPerCapita() {
+    GetData.handleStatesTotalPerCapita(this.state.selected).then(response => {
+      console.log(response);
+      this.setState({
+        selectedState: response,
+        totalCases: true,
+        perCapita: true
+      }, 
+      () => console.log(`this.state: `, this.state));
+    });
+  }
 
   handleNewStatesCases() {
     GetData.handleStatesNewCases(this.state.selected).then(response => {
@@ -169,15 +180,20 @@ class App extends React.Component {
                     />
                   </li>
                   <li className="nav-item">
-                    <USTotalPerCapita 
-                      handleClick={() => this.handleUSTotalPerCapitaCases()}
+                    {!states && <USTotalPerCapita 
+                      handleClick={() => this.handleUSTotalPerCapita()}
                       totalCases={totalCases}
                       perCapita={perCapita}
-                    />
+                    />}
+                    {states && <StatesTotalPerCapita 
+                      handleClick={() => this.handleStatesTotalPerCapita()}
+                      totalCases={totalCases}
+                      perCapita={perCapita}
+                    />}
                     </li>
                   <li className="nav-item">
                     <USNewPerCapita 
-                      handleClick={() => this.handleUSNewPerCapitaCases()}
+                      handleClick={() => this.handleUSNewPerCapita()}
                       totalCases={totalCases}
                       perCapita={perCapita}
                     />

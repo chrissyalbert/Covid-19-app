@@ -31,14 +31,18 @@ export const GetData = {
 
 	handleStatesRequest(fips) {
 		return axios.get(csvStatesUrl).then(data => {
-			//console.log(data);
 			 return Covid.handleStatesCSVResult(data.data, fips);
 		}).catch(error => console.error(error));
 	},
 
+	handleStatesTotalPerCapita(fips) {
+		return axios.get(csvStatesUrl).then(data => {
+			return Covid.handleStatesTotalPerCapita(data.data, fips);
+	 }).catch(error => console.error(error));
+	},
+
 	handleStatesNewCases(fips) {
 		return axios.get(csvStatesUrl).then(data => {
-			//console.log(data);
 			 return Covid.handleStatesNewCases(data.data, fips);
 		}).catch(error => console.error(error));
 	}
