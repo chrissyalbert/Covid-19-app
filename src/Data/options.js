@@ -50,7 +50,7 @@ export const states =  [
   {label: "West Virginia", value: 54},
   {label: "Wisconsin", value: 55},
   {label: "Wyoming", value: 56},
-  {label: "American Samoa", value: 60},
+  //{label: "American Samoa", value: 60},
   //{label: "Federated States of Micronesia", value: 64},
   {label: "Guam", value: 66},
   {label: "Northern Mariana Islands", value: 69},

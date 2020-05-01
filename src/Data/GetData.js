@@ -41,6 +41,12 @@ export const GetData = {
 	 }).catch(error => console.error(error));
 	},
 
+	handleStatesNewPerCapita(fips) {
+		return axios.get(csvStatesUrl).then(data => {
+			return Covid.handleStatesNewPerCapita(data.data, fips);
+	 }).catch(error => console.error(error));
+	},
+
 	handleStatesNewCases(fips) {
 		return axios.get(csvStatesUrl).then(data => {
 			 return Covid.handleStatesNewCases(data.data, fips);

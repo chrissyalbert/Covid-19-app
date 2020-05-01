@@ -8,8 +8,8 @@ export const USTotalPerCapita = props => {
     <Button 
       variant="link"
       onClick={handleClick}
-      totalCases={totalCases}
-      perCapita={perCapita}
+      totalcases={totalCases.toString()}
+      percapita={perCapita.toString()}
     >
       Show Cases per 100,000 people
     </Button>
@@ -36,10 +36,23 @@ export const StatesTotalPerCapita = props => {
     <Button 
       variant="link"
       onClick={handleClick}
-      totalCases={totalCases}
-      perCapita={perCapita}
+      totalCases={totalCases.toString()}
+      perCapita={perCapita.toString()}
     >
       Show Cases per 100,000 people
+    </Button>
+  );
+}
+
+export const StatesNewPerCapita = props => {
+  const { handleClick, totalCases, perCapita } = props;
+  return (
+    (!totalCases && perCapita) ? null :
+    <Button 
+      variant="link"
+      onClick={handleClick}
+    >
+      Show New Cases per 100,000 people
     </Button>
   );
 }

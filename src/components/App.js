@@ -6,7 +6,7 @@ import Dashboard from './Dashboard/Dashboard';
 import SearchByState from './../Data/SearchByState';
 import { UScases } from './Sidebar/UScases';
 import { NewCases, USTotalCases, StateTotalCases } from './Sidebar/NewCases';
-import { USTotalPerCapita, USNewPerCapita, StatesTotalPerCapita } from "./Sidebar/PerCapita";
+import { USTotalPerCapita, USNewPerCapita, StatesTotalPerCapita, StatesNewPerCapita } from "./Sidebar/PerCapita";
 
 class App extends React.Component {
   state = {
@@ -72,6 +72,18 @@ class App extends React.Component {
       this.setState({
         selectedState: response,
         totalCases: true,
+        perCapita: true
+      }, 
+      () => console.log(`this.state: `, this.state));
+    });
+  }
+
+  handleStatesNewPerCapita() {
+    GetData.handleStatesNewPerCapita(this.state.selected).then(response => {
+      console.log(response);
+      this.setState({
+        selectedState: response,
+        totalCases: false,
         perCapita: true
       }, 
       () => console.log(`this.state: `, this.state));
@@ -192,11 +204,18 @@ class App extends React.Component {
                     />}
                     </li>
                   <li className="nav-item">
+                    {!states && 
                     <USNewPerCapita 
                       handleClick={() => this.handleUSNewPerCapita()}
                       totalCases={totalCases}
                       perCapita={perCapita}
-                    />
+                    />}
+                    {states && 
+                    <StatesNewPerCapita 
+                      handleClick={() => this.handleStatesNewPerCapita()}
+                      totalCases={totalCases}
+                      perCapita={perCapita}
+                    />}
                   </li>
                 </ul>
               </div>
@@ -206,7 +225,7 @@ class App extends React.Component {
                 labels={dates}
                 cases={cases}
                 deaths={deaths}
-                state={states ? states : "United States"}
+                state={this.state.selectedState[3] ? this.state.selectedState[3] : "United States"}
                 total={totalCases ? "Total" : "New"}
                 perCapita={perCapita ? "per 100,000 people" : ""}
               />

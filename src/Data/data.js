@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 export const Covid = {
   handleUSCSVResult(csvString) {
     // Split csv to rows array
@@ -5,6 +7,7 @@ export const Covid = {
     let newRows = rows.map(element => element.split(","));
     let dateArr = newRows.map(element => element[0]);
     dateArr.shift();
+    dateArr = dateArr.map(element => moment(element).format("MMM D, YYYY"));
     let casesArr = newRows.map(element => element[1]);
     casesArr.shift();
     let deathsArr = newRows.map(element => element[2]);
@@ -58,7 +61,11 @@ export const Covid = {
 
   handleUSNewCases(csvString) {
     let results = this.handleUSCSVResult(csvString);
+    console.log(`results[0]: `, results[0]);
     let newCases = [];
+    let dateArr = results[0];
+    dateArr.shift();
+    console.log(`dateArr: `, dateArr);
     for (let i = 1; i < results[1].length; i++) {
       let element;
       element = results[1][i] - results[1][i-1];
@@ -72,7 +79,7 @@ export const Covid = {
       newDeaths.push(element);
     }
     console.log(`new deaths: `, newDeaths);
-    let newResults = [results[0], newCases, newDeaths]
+    let newResults = [dateArr, newCases, newDeaths]
     console.log(`newResults: `, newResults);
     return newResults;
   },
@@ -89,6 +96,7 @@ export const Covid = {
       }
     }
     let dateArr = selectedState.map(element => element[0]);
+    dateArr = dateArr.map(element => moment(element).format("MMM D, YYYY"));
     let casesArr = selectedState.map(element => element[3]);
     let deathsArr = selectedState.map(element => element[4]);
     let stateName = selectedState[1][1];
@@ -98,6 +106,8 @@ export const Covid = {
 
   handleStatesNewCases(csvString, fips) {
     let selectedState = this.handleStatesCSVResult(csvString, fips);
+    let dateArr = selectedState[0];
+    dateArr.shift();
     //create array of new cases found each day
     let newCases = [];
     for (let i = 1; i < selectedState[1].length; i++) {
@@ -113,7 +123,7 @@ export const Covid = {
       newDeaths.push(element);
     }
     console.log(`new deaths: `, newDeaths);
-    let newResults = [selectedState[0], newCases, newDeaths, selectedState[3]]
+    let newResults = [dateArr, newCases, newDeaths, selectedState[3]]
     console.log(`newResults: `, newResults);
     return newResults;
   },
@@ -122,6 +132,7 @@ export const Covid = {
     let results = this.handleStatesCSVResult(csvString, fips);
     let population;
     let cases = [];
+    // eslint-disable-next-line
     switch(fips) {
       case 1:
         population = 4903185;
@@ -305,69 +316,31 @@ export const Covid = {
       deaths.push(element);
     }
     console.log(`deaths per 100,000 people: `, deaths);
-    let perCapitaResults = [results[0], cases, deaths];
+    let perCapitaResults = [results[0], cases, deaths, results[3]];
     console.log(`perCapitaResults: `, perCapitaResults);
     return perCapitaResults;
+  },
+
+  handleStatesNewPerCapita(csvString, fips) {
+    let results = this.handleStatesTotalPerCapita(csvString, fips);
+    let dateArr = results[0];
+    dateArr.shift();
+    let newCases = [];
+    for (let i = 1; i < results[1].length; i++) {
+      let element;
+      element = results[1][i] - results[1][i-1];
+      newCases.push(element);
+    }
+    console.log(`new cases per capita: `, newCases);
+    let newDeaths = [];
+    for (let i = 1; i < results[2].length; i++) {
+      let element;
+      element = results[2][i] - results[2][i-1];
+      newDeaths.push(element);
+    }
+    console.log(`new deaths per capita: `, newDeaths);
+    let newResults = [dateArr, newCases, newDeaths, results[3]];
+    console.log(`newResults per capita: `, newResults);
+    return newResults;
   }
 }
-
-
-
-
-/*
-let Alabama=[];
-let Alaska=[];
-let Arizona=[];
-let Arkansas=[];
-let California=[];
-let Colorado=[];
-let Connecticut=[];
-let Delaware=[];
-let DC=[];
-let Florida=[];
-let Georgia=[];
-let Hawaii=[];
-let Idaho=[];
-let Kansas=[];
-let Kentucky=[];
-let Louisiana=[];
-let Maine=[];
-let Maryland=[];
-let Massachusetts=[];
-let Michigan=[];
-let Minnesota=[];
-let Mississippi=[];
-let Missouri=[];
-let Montana=[];
-let Nebraska=[];
-let Nevada=[];
-let NewHampshire=[];
-let NewJersey=[];
-let NewMexico=[];
-let NewYork=[];
-let NorthCarolina=[];
-let NorthDakota=[];
-let Ohio=[];
-let Oklahoma=[];
-let Oregon=[];
-let Pennsylvania=[];
-let RhodeIsland=[];
-let SouthCarolina=[];
-let SouthDakota=[];
-let Tennessee=[];
-let Texas=[];
-let Utah=[];
-let Vermont=[];
-let Virginia=[];
-let Washington=[];
-let WestVirginia=[];
-let Wisconsin=[];
-let Wyoming=[];
-let AmericanSamoa=[];
-let Micronesia=[];
-let Guam=[];
-let Mariana=[];
-let Palau=[];
-let PuertoRico=[];
-let VirginIslands=[];
-*/
