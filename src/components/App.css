@@ -11,6 +11,10 @@
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
+.sidebar-sticky {
+  width: 100%;
+}
+
 .databox {
   position: absolute;
   top: 70px;
@@ -20,8 +24,15 @@
   padding: 1.5rem 1rem 1rem;
 }
 
+
+
 nav p {
   margin: 0.5rem auto;
+}
+
+.titlebar div {
+  display: flex;
+  width: 100%;
 }
 
 .navbar-dark {
@@ -30,10 +41,16 @@ nav p {
 }
 
 @media (min-width: 768px) {
+
+  nav div {
+    width: 60%;
+  }
+
   .databox {
     padding-top: 2rem;
     top: 40px;
   }
+
   .sidebar {
     position: fixed;
     top: 0;

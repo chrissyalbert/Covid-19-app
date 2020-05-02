@@ -17,7 +17,9 @@ class App extends React.Component {
   }
   
   handleChange = async (selected) => {
-    await this.setState({ selected: selected.value },
+    console.log(selected);
+    let value = selected[0].value;
+    await this.setState({ selected: value },
       () => console.log(`state.selected: `, this.state.selected));
     GetData.handleStatesRequest(this.state.selected).then(response => {
         console.log(response);
@@ -143,8 +145,8 @@ class App extends React.Component {
     const { totalCases, perCapita } = this.state;
     return (
       <div className="App">
-        <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
-          <p className="navbar-dark mr-0">Covid-19</p>
+        <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow titlebar">
+          <p className="navbar-dark">Covid-19</p>
           <p className="navbar-dark">
             {states ? states : "United States"}
             &nbsp;
@@ -153,7 +155,7 @@ class App extends React.Component {
             {perCapita ? "per 100,000" : ""}
           </p>
           <SearchByState 
-            className="form-control form-control-dark w-100" 
+            className="col-md-6" 
             onChange={this.handleChange}
             value={this.state.selectedState}
             />

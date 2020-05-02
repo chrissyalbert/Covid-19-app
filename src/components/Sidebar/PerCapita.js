@@ -36,8 +36,7 @@ export const StatesTotalPerCapita = props => {
     <Button 
       variant="link"
       onClick={handleClick}
-      totalCases={totalCases.toString()}
-      perCapita={perCapita.toString()}
+      
     >
       Show Cases per 100,000 people
     </Button>

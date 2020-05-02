@@ -1,21 +1,18 @@
 import React from 'react';
-import Select, { components } from 'react-select';
+import Select from "react-dropdown-select";
 import { states } from './options';
 import './Search.css';
 
-const Placeholder = props => {
-  return <components.Placeholder {...props} />;
-};
 
 const SearchByState = props => (
   <Select 
     options={states}
-    components={{ Placeholder }}
-    placeholder={'Search by State'}
-    className="basic-single width"
-    classNamePrefix="select"  
-    onChange={props.onChange}   
-    value=""
+    placeholder={'Search by State'} 
+    onChange={(selected) => props.onChange(selected)}   
+    className="width"
+    classNamePrefix="select"
+    dropdownHandle={false}
+
   />
 )
 
