@@ -38,7 +38,7 @@ export default class LineGraph extends React.PureComponent {
                         label: "Deaths",
                         data: deaths,
                         fill: false,
-                        borderColor: "#E0E0E0"
+                        borderColor: "#949494"
                     }
                 ]
             },

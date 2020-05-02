@@ -17,115 +17,96 @@ class App extends React.Component {
   }
   
   handleChange = async (selected) => {
-    console.log(selected);
     let value = selected[0].value;
-    await this.setState({ selected: value },
-      () => console.log(`state.selected: `, this.state.selected));
+    await this.setState({ selected: value });
     GetData.handleStatesRequest(this.state.selected).then(response => {
-        console.log(response);
         this.setState({
           selectedState: response,
           totalCases: true,
           perCapita: false
-        }, 
-          () => console.log(`this.state: `, this.state));
+        });
       });
   }
 
   async handleUSRequest() {
     await this.setState({selected: null});
-    console.log(`this.state: `,this.state);
     await GetData.handleUSRequest().then(response => {
       this.setState({
         selectedState: response,
         totalCases: true,
         perCapita: false
-      }, () => console.log(`this.state: `,this.state));
+      });
     });
   }
 
   handleUSTotalPerCapita() {
     GetData.handleUSTotalPerCapita().then(response => {
-      console.log(response);
       this.setState({
         selectedState: response,
         totalCases: true,
         perCapita: true
-      },
-      () => console.log(`this.state: `, this.state));
+      });
     });
   }
 
   handleUSNewPerCapita() {
     GetData.handleUSNewPerCapita().then(response => {
-      console.log(response);
       this.setState({
         selectedState: response,
         totalCases: false,
         perCapita: true
-      },
-      () => console.log(`this.state: `, this.state));
+      });
     });
   }
   
   handleStatesTotalPerCapita() {
     GetData.handleStatesTotalPerCapita(this.state.selected).then(response => {
-      console.log(response);
       this.setState({
         selectedState: response,
         totalCases: true,
         perCapita: true
-      }, 
-      () => console.log(`this.state: `, this.state));
+      });
     });
   }
 
   handleStatesNewPerCapita() {
     GetData.handleStatesNewPerCapita(this.state.selected).then(response => {
-      console.log(response);
       this.setState({
         selectedState: response,
         totalCases: false,
         perCapita: true
-      }, 
-      () => console.log(`this.state: `, this.state));
+      });
     });
   }
 
   handleNewStatesCases() {
     GetData.handleStatesNewCases(this.state.selected).then(response => {
-      console.log(response);
       this.setState({
         selectedState: response,
         totalCases: false,
         perCapita: false
-      }, 
-        () => console.log(`this.state: `, this.state));
+      });
     });
   }
 
   handleNewUSCases() {
       GetData.handleUSCasesNewCases().then(response => {
-        console.log(response);
         this.setState({
           selectedState: response,
           totalCases: false,
           perCapita: false
-        }, 
-          () => console.log(`this.state: `, this.state));
+        });
       })
   }
 
   handleTotalCases() {
     if (this.state.selected) {
       GetData.handleStatesRequest(this.state.selected).then(response => {
-        console.log(response);
         this.setState({
           selectedState: response,
           totalCases: true,
           perCapita: false
-        }, 
-          () => console.log(`this.state: `, this.state));
+        });
       });
     } else {
       this.handleUSRequest();
@@ -137,7 +118,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(`this.state: `, this.state);
     const dates = this.state.selectedState[0];
     const cases = this.state.selectedState[1];
     const deaths = this.state.selectedState[2];
@@ -232,7 +212,7 @@ class App extends React.Component {
                 perCapita={perCapita ? "per 100,000 people" : ""}
               />
             </main>
-            <div><p>Data is from the <a href="https://github.com/nytimes/covid-19-data" target="_blank" rel="noopener noreferrer">New York Times</a></p>
+            <div className="w-100"><p>Covid-19 Cases data is from the <a href="https://github.com/nytimes/covid-19-data" target="_blank" rel="noopener noreferrer">New York Times</a></p><p>U.S. and states population estimates are from the <a href="https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-total.html" target="_blank" rel="noopener noreferrer">U.S. Census Bureau</a></p>
               <p>Icons made by <a href="https://www.flaticon.com/authors/srip" title="srip">srip</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p></div>
           </div>
         </div>

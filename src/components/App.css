@@ -42,8 +42,8 @@ nav p {
 
 @media (min-width: 768px) {
 
-  nav div {
-    width: 60%;
+  .titlebar div {
+    width: 70%;
   }
 
   .databox {

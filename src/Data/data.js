@@ -13,7 +13,6 @@ export const Covid = {
     let deathsArr = newRows.map(element => element[2]);
     deathsArr.shift();
     newRows = [dateArr, casesArr, deathsArr];
-    console.log(`US cases: `, newRows);
     return newRows;
   },
 
@@ -25,16 +24,13 @@ export const Covid = {
       element = Math.ceil((100000 * results[1][i])/328239523);
       cases.push(element);
     }
-    console.log(`cases per 100,000 people: `, cases);
     let deaths = [];
     for (let i = 1; i < results[2].length; i++) {
       let element;
       element = Math.ceil((1000 * results[1][i])/328239523);
       deaths.push(element);
     }
-    console.log(`deaths per 100,000 people: `, deaths);
     let perCapitaResults = [results[0], cases, deaths];
-    console.log(`perCapitaResults: `, perCapitaResults);
     return perCapitaResults;
   },
 
@@ -46,41 +42,33 @@ export const Covid = {
       element = results[1][i] - results[1][i-1];
       newCases.push(element);
     }
-    console.log(`new cases per capita: `, newCases);
     let newDeaths = [];
     for (let i = 1; i < results[2].length; i++) {
       let element;
       element = results[2][i] - results[2][i-1];
       newDeaths.push(element);
     }
-    console.log(`new deaths per capita: `, newDeaths);
     let newResults = [results[0], newCases, newDeaths]
-    console.log(`newResults per capita: `, newResults);
     return newResults;
   },
 
   handleUSNewCases(csvString) {
     let results = this.handleUSCSVResult(csvString);
-    console.log(`results[0]: `, results[0]);
     let newCases = [];
     let dateArr = results[0];
     dateArr.shift();
-    console.log(`dateArr: `, dateArr);
     for (let i = 1; i < results[1].length; i++) {
       let element;
       element = results[1][i] - results[1][i-1];
       newCases.push(element);
     }
-    console.log(`new cases: `, newCases);
     let newDeaths = [];
     for (let i = 1; i < results[2].length; i++) {
       let element;
       element = results[2][i] - results[2][i-1];
       newDeaths.push(element);
     }
-    console.log(`new deaths: `, newDeaths);
     let newResults = [dateArr, newCases, newDeaths]
-    console.log(`newResults: `, newResults);
     return newResults;
   },
 
@@ -115,16 +103,13 @@ export const Covid = {
       element = selectedState[1][i] - selectedState[1][i-1];
       newCases.push(element);
     }
-    console.log(`new cases: `, newCases);
     let newDeaths = [];
     for (let i = 1; i < selectedState[2].length; i++) {
       let element;
       element = selectedState[2][i] - selectedState[2][i-1];
       newDeaths.push(element);
     }
-    console.log(`new deaths: `, newDeaths);
     let newResults = [dateArr, newCases, newDeaths, selectedState[3]]
-    console.log(`newResults: `, newResults);
     return newResults;
   },
 
@@ -308,16 +293,13 @@ export const Covid = {
       element = Math.ceil((100000 * results[1][i])/population);
       cases.push(element);
     }
-    console.log(`cases per 100,000 people: `, cases);
     let deaths = [];
     for (let i = 1; i < results[2].length; i++) {
       let element;
       element = Math.ceil((1000 * results[1][i])/population);
       deaths.push(element);
     }
-    console.log(`deaths per 100,000 people: `, deaths);
     let perCapitaResults = [results[0], cases, deaths, results[3]];
-    console.log(`perCapitaResults: `, perCapitaResults);
     return perCapitaResults;
   },
 
@@ -331,16 +313,13 @@ export const Covid = {
       element = results[1][i] - results[1][i-1];
       newCases.push(element);
     }
-    console.log(`new cases per capita: `, newCases);
     let newDeaths = [];
     for (let i = 1; i < results[2].length; i++) {
       let element;
       element = results[2][i] - results[2][i-1];
       newDeaths.push(element);
     }
-    console.log(`new deaths per capita: `, newDeaths);
     let newResults = [dateArr, newCases, newDeaths, results[3]];
-    console.log(`newResults per capita: `, newResults);
     return newResults;
   }
 }

@@ -12,7 +12,7 @@ const SearchByState = props => (
     className="width"
     classNamePrefix="select"
     dropdownHandle={false}
-
+    value=""
   />
 )
 
